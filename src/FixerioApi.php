@@ -113,6 +113,10 @@ class FixerioApi implements FixerioApiInterface {
     }
   }
 
+  /**
+   * @todo Use error handler
+   * @param array $error
+   */
   public function errorHandler(array $error) {
 
   }

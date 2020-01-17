@@ -10,4 +10,4 @@ services:
     arguments: ['@http_client', '@logger.channel.fixerio', '@serializer', '@config.factory']
   fixerio.exchange:
     class: Drupal\fixerio\Exchange
-    arguments: ['@fixerio.api', '@logger.channel.fixerio', '@cache.default']
+    arguments: ['@fixerio.api', '@logger.channel.fixerio', '@cache.default', '@config.factory']

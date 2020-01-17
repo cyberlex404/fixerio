@@ -45,12 +45,12 @@ function fixerio_cron() {
   $expires = \Drupal::state()
     ->get('fixerio.rates_check', 0);
   $config = \Drupal::config('fixerio.settings');
-  $interval = $config->get('interval');
+  $interval = $config->get('refresh');
   $interval = !empty($interval) ? $interval : 3600;
 
 
   if ($time >= $expires) {
-    $logger->notice('fixerio_cron ran');
+    $logger->notice('Fixer.io cron ran');
     $api->latest();
     \Drupal::state()
       ->set('fixerio.rates_check', $time + $interval);

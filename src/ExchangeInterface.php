@@ -17,6 +17,9 @@ interface ExchangeInterface {
    * @param string $target
    *   Currency code for conversion.
    *
+   * @throws \Drupal\fixerio\Exception\UnavailableCurrency
+   *   UnavailableCurrency.
+   *
    * @return float
    *   Converted value
    */

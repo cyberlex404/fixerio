@@ -11,6 +11,9 @@ fixerio.settings:
     base:
       type: string
       label: 'Base currency'
+    refresh:
+      type: integer
+      label: Refresh interval
     available_currencies:
       type: sequence
       label: 'Available currencies'

@@ -2,6 +2,7 @@ fixerio:
   plan: free
   api_access_key: xxxxxxxxxxxxxxxxxxxxxxx
   base: eur
+  refresh: 3600
   available_currencies:
     eur: eur
     awg: awg

@@ -53,9 +53,6 @@ class DashboardController extends ControllerBase {
     $base = $this->configFactory->get('fixerio.settings')->get('base');
     $ratesData = $this->configFactory->get('fixerio.rates.' . $base);
 
-    $build['content']['info'] = [
-      '#markup' => $ratesData->get('date'),
-    ];
     $rows = [];
     foreach ($ratesData->get('rates') as $code => $rate) {
       $rows[] = [
@@ -73,7 +70,7 @@ class DashboardController extends ControllerBase {
       '#rows' => $rows,
       '#empty' => $this->t('Currency rates not available'),
       '#caption' => $this->t('Exchange rate table: @base. Update: @update', [
-        '@base' => $base,
+        '@base' => mb_strtoupper($base),
         '@update' => $ratesData->get('date'),
       ]),
     ];

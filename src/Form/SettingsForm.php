@@ -4,6 +4,7 @@ namespace Drupal\fixerio\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\fixerio\Exception\UnavailableCurrency;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -52,11 +53,35 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    /** @var \Drupal\fixerio\ExchangeInterface $exchange */
+    $exchange = \Drupal::service('fixerio.exchange');
+
+    try {
+      $value = $exchange->convert(10, 'RON', 'EUR');
+      \Drupal::messenger()->addStatus('10 RON to EUR:' . $value);
+    }
+    catch (UnavailableCurrency $e) {
+      \Drupal::messenger()->addError($e->getMessage());
+    }
+    try {
+      $value = $exchange->convert(10, 'EUR', 'BYN');
+      \Drupal::messenger()->addStatus('10 EUR to BYN:' . $value);
+    }
+    catch (UnavailableCurrency $e) {
+      \Drupal::messenger()->addError($e->getMessage());
+    }
+    try {
+      $value = $exchange->convert(200.4557, 'BYN', 'RUB');
+      \Drupal::messenger()->addStatus('200.4557 BYN to RUB:' . $value);
+    }
+    catch (UnavailableCurrency $e) {
+      \Drupal::messenger()->addError($e->getMessage());
+    }
+
     $config = $this->config('fixerio.settings');
     $cron = \Drupal::state()
       ->get('fixerio.rates_check', 0);
 
-    $this->api->latest();
     /** @var \Drupal\Core\Datetime\DateFormatterInterface $formatter */
     $formatter = \Drupal::service('date.formatter');
     $message = $this->t('Next rates update: @next', [
@@ -90,6 +115,18 @@ class SettingsForm extends ConfigFormBase {
         '@var' => '$config[\'fixerio.settings\'][\'api_access_key\']',
         '@value' => $this->configFactory()->get('fixerio.settings')->getOriginal('api_access_key'),
       ]),
+    ];
+
+    $form['refresh'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Refresh'),
+      '#description' => $this->t('Refresh interval'),
+      '#options' => [
+        '3600' => $this->t('Hourly'),
+        '43200' => $this->t('12 hour'),
+        '86400' => $this->t('Day'),
+      ],
+      '#default_value' => $config->get('refresh') ?? '3600',
     ];
 
     $form['base'] = [
@@ -134,9 +171,12 @@ class SettingsForm extends ConfigFormBase {
     $this->config('fixerio.settings')
       ->set('plan', $form_state->getValue('plan'))
       ->set('base', $base)
+      ->set('refresh', $form_state->getValue('refresh'))
       ->set('api_access_key', $form_state->getValue('api_access_key'))
       ->set('available_currencies', array_filter($form_state->getValue('available_currencies')))
       ->save();
+
+    $this->api->latest();
   }
 
   /**
