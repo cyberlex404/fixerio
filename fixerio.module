@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains fixerio.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function fixerio_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the fixerio module.
+    case 'help.page.fixerio':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Fixer.io exchange rates and corrency conversion JSON API') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function fixerio_theme() {
+  return [
+    'fixerio' => [
+      'render element' => 'children',
+    ],
+  ];
+}

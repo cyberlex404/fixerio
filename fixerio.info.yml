@@ -1,0 +1,7 @@
+name: 'fixerio'
+type: module
+description: 'Fixer.io exchange rates and corrency conversion JSON API'
+core: 8.x
+package: 'Custom'
+dependencies:
+  - views
