@@ -1,0 +1,70 @@
+# Example currencies_plugin plugin definitions.
+# Plugin property $defaults are defined in CurrenciesPluginManager.
+eur:
+  id: eur
+  code: EUR
+  label: Euro
+aed:
+  id: aed
+  code: AED
+  label: United Arab Emirates dirham
+afn:
+  id: afn
+  code: AFN
+  label: 	US dollar
+all:
+  id: all
+  code: ALL
+  label: 	Albanian lek
+ang:
+  id: ang
+  code: ANG
+  label: 	US dollar
+aoa:
+  id: aoa
+  code: AOA
+  label: 	Angolan kwanza
+ars:
+  id: ars
+  code: ARS
+  label: 	Argentine peso
+aud:
+  id: aud
+  code: aud
+  label: Australian dollar
+awg:
+  id: awg
+  code: awg
+  label: 	US dollar
+azn:
+  id: azn
+  code: azn
+  label: 	US dollar
+bam:
+  id: bam
+  code: bam
+  label: 	US dollar
+bbd:
+  id: bbd
+  code: bbd
+  label: 	US dollar
+bdt:
+  id: bdt
+  code: bdt
+  label: 	US dollar
+bgn:
+  id: bgn
+  code: bgn
+  label: Bulgarian lev
+bhd:
+  id: bhd
+  code: bhd
+  label: 	US dollar
+bif:
+  id: bif
+  code: bif
+  label: 	US dollar
+bmd:
+  id: bmd
+  code: bmd
+  label: 	US dollar

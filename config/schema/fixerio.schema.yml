@@ -1,0 +1,48 @@
+fixerio.settings:
+  type: config_object
+  label: 'Fixer.io settings'
+  mapping:
+    plan:
+      type: string
+      label: 'Plan'
+    api_access_key:
+      type: string
+      label: 'API key'
+    base:
+      type: string
+      label: 'Base currency'
+    available_currencies:
+      type: sequence
+      label: 'Available currencies'
+      sequence:
+        type: string
+        label: 'Currency'
+fixerio_rate:
+  type: mapping
+  mapping:
+    code:
+      type: string
+      label: Code
+    rate:
+      type: float
+      label: Rate
+
+fixerio.rates.*:
+  type: config_object
+  label: 'Fixer.io rates'
+  mapping:
+    base:
+      type: string
+      label: Base
+    last_update:
+      type: integer
+      label: Timestamp
+    date:
+      type: string
+      label: Date
+    rates:
+      type: sequence
+      label: 'Rates'
+      sequence:
+        type: fixerio_rate
+        label: 'Rate'

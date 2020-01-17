@@ -33,3 +33,26 @@ function fixerio_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_cron().
+ */
+function fixerio_cron() {
+  $logger = Drupal::logger('fixerio');
+  $time = \Drupal::time()->getRequestTime();
+  /** @var \Drupal\fixerio\FixerioApiInterface $api */
+  $api = \Drupal::service('fixerio.api');
+  $expires = \Drupal::state()
+    ->get('fixerio.rates_check', 0);
+  $config = \Drupal::config('fixerio.settings');
+  $interval = $config->get('interval');
+  $interval = !empty($interval) ? $interval : 3600;
+
+
+  if ($time >= $expires) {
+    $logger->notice('fixerio_cron ran');
+    $api->latest();
+    \Drupal::state()
+      ->set('fixerio.rates_check', $time + $interval);
+  }
+}

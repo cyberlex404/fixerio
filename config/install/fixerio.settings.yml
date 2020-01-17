@@ -1,0 +1,10 @@
+fixerio:
+  plan: free
+  api_access_key: xxxxxxxxxxxxxxxxxxxxxxx
+  base: eur
+  available_currencies:
+    eur: eur
+    awg: awg
+    azn: azn
+    bbd: bbd
+    bdt: bdt
