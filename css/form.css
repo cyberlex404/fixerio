@@ -1,0 +1,9 @@
+#edit-available-currencies {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#edit-available-currencies .form-item {
+  width: 25%;
+  margin: 0;
+}

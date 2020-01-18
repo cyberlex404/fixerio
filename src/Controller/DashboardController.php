@@ -32,6 +32,24 @@ class DashboardController extends ControllerBase {
   protected $currencies;
 
   /**
+   * @var \Drupal\fixerio\Storage
+   */
+  protected $storage;
+
+  /**
+   * Renderer service.
+   *
+   * @var \Drupal\Core\Render\Renderer
+   */
+  protected $renderer;
+
+  /**
+   * Date formatter.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $formatter;
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -39,6 +57,9 @@ class DashboardController extends ControllerBase {
     $instance->configFactory = $container->get('config.factory');
     $instance->formBuilder = $container->get('form_builder');
     $instance->currencies = $container->get('plugin.manager.currencies_plugin');
+    $instance->storage = $container->get('fixerio.storage');
+    $instance->renderer = $container->get('renderer');
+    $instance->formatter = $container->get('date.formatter');
     return $instance;
   }
 
@@ -49,35 +70,37 @@ class DashboardController extends ControllerBase {
    *   Return Hello string.
    */
   public function rates() {
-
-    $base = $this->configFactory->get('fixerio.settings')->get('base');
-    $ratesData = $this->configFactory->get('fixerio.rates.' . $base);
-
-    $rows = [];
-    foreach ($ratesData->get('rates') as $code => $rate) {
-      $rows[] = [
-        'code' => $rate['code'],
-        'rate' => $rate['rate'],
+    try {
+      $ratesData = $this->storage->load();
+    }
+    catch (\Exception $exception) {
+      $this->messenger()->addError($exception->getMessage());
+      return [
+        '#markup' => 'Error',
       ];
     }
-
+    $rows = [];
+    foreach ($ratesData as $rate) {
+      $rows[] = [
+        'base' => mb_strtoupper($rate->base),
+        'code' => mb_strtoupper($rate->code),
+        'rate' => $rate->rate,
+        'created' => $this->formatter->format($rate->created),
+      ];
+    }
     $header = [];
-    $header['code'] = $this->t('Code');
+    $header['base'] = $this->t('Base');
+    $header['code'] = $this->t('Currency code');
     $header['rate'] = $this->t('Rate');
+    $header['created'] = $this->t('Updated');
     $build['content']['rates'] = [
       '#type' => 'table',
       '#header' => $header,
       '#rows' => $rows,
       '#empty' => $this->t('Currency rates not available'),
-      '#caption' => $this->t('Exchange rate table: @base. Update: @update', [
-        '@base' => mb_strtoupper($base),
-        '@update' => $ratesData->get('date'),
-      ]),
     ];
-
-    /** @var \Drupal\Core\Render\Renderer $renderer */
-    $renderer = \Drupal::service('renderer');
-    $renderer->addCacheableDependency($build, $ratesData);
+    $build['#cache']['tags'][] = 'fixerio_rates';
+    $build['#cache']['max-age'] = 3600;
     return $build;
   }
 

@@ -53,6 +53,7 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#attached']['library'][] = 'fixerio/form';
     /** @var \Drupal\fixerio\ExchangeInterface $exchange */
     $exchange = \Drupal::service('fixerio.exchange');
 
@@ -153,7 +154,7 @@ class SettingsForm extends ConfigFormBase {
       '#options' => $this->currenciesList(),
       '#default_value' => $config->get('available_currencies'),
       '#attributes' => [
-        'class' => ['container-inline'],
+        'class' => ['container-available-currencies'],
       ],
     ];
     return parent::buildForm($form, $form_state);

@@ -155,14 +155,29 @@ class FixerioApi implements FixerioApiInterface {
     if (!$response_data['success'] && isset($response_data['error'])) {
       $this->errorHandler($response_data['error']);
     }
+
+    $base = mb_strtolower($response_data['base']);
+    $timestamp = $response_data['timestamp'];
     $rates = [];
+    /** @var \Drupal\fixerio\Storage $dbStorage */
+    $dbStorage = \Drupal::service('fixerio.storage');
+
+
     foreach ($response_data['rates'] as $code => $value) {
-      $rates[mb_strtolower(($code))] = [
+      $rates[mb_strtolower($code)] = [
         'code' => $code,
         'rate' => $value,
       ];
+
+      $entry = [
+        'created' => $timestamp,
+        'code' => mb_strtolower($code),
+        'base' => $base,
+        'rate' => $value,
+      ];
+      $dbStorage->merge($entry);
     }
-    $base = mb_strtolower($response_data['base']);
+
     $ratesStorage = $this->configFactory->getEditable('fixerio.rates.' . $base);
 
     $ratesStorage->set('base', $base)
@@ -170,6 +185,8 @@ class FixerioApi implements FixerioApiInterface {
       ->set('last_update', $response_data['timestamp'])
       ->set('rates', $rates)->save();
 
+    \Drupal::service('cache_tags.invalidator')
+      ->invalidateTags(['fixerio_rates']);
     $this->logger->notice(t('Update latest rates for @base', [
       '@base' => $response_data['base'],
     ]));

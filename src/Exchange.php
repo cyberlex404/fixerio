@@ -63,6 +63,8 @@ class Exchange implements ExchangeInterface {
    */
   protected $available_currencies;
 
+  protected $storage;
+
   /**
    * Constructs a new Exchange object.
    *
@@ -72,12 +74,15 @@ class Exchange implements ExchangeInterface {
    *   Logger.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache_default
    *   Cache.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   * @param \Drupal\fixerio\Storage $storage
    */
-  public function __construct(FixerioApiInterface $api, LoggerChannelInterface $logger, CacheBackendInterface $cache_default, ConfigFactoryInterface $configFactory) {
+  public function __construct(FixerioApiInterface $api, LoggerChannelInterface $logger, CacheBackendInterface $cache_default, ConfigFactoryInterface $configFactory, Storage $storage) {
     $this->api = $api;
     $this->logger = $logger;
     $this->cacheDefault = $cache_default;
     $this->configFactory = $configFactory;
+    $this->storage = $storage;
   }
 
   /**
@@ -127,13 +132,13 @@ class Exchange implements ExchangeInterface {
    * @return array
    *   rates array
    */
-  private function rates() {
+  private function rates($codes = []) {
     if (empty($this->rates)) {
-      $rates = [];
       $base = $this->base();
-      $items = $this->configFactory->get('fixerio.rates.' . $base)->get('rates');
-      foreach ($items as $code => $item) {
-        $rates[$code] = $item['rate'];
+      $ratesData = $this->storage->load(['base' => $base]);
+      $rates = [];
+      foreach ($ratesData as $key => $rate) {
+        $rates[$rate->code] = $rate->rate();
       }
       $this->rates = $rates;
     }
