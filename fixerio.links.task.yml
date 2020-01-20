@@ -1,0 +1,15 @@
+fixerio.rates:
+  title: 'Rates'
+  route_name: fixerio.rates
+  base_route: fixerio.rates
+
+#fixerio.rates_tab:
+#  title: 'Rates'
+#  route_name: fixerio.rates #view.admin_events.page_1
+#  parent_id: system.admin_services
+#  weight: 1
+fixerio.settings:
+  title: 'Settings'
+  route_name: fixerio.settings
+  base_route: fixerio.rates
+  weight: 2

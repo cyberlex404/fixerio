@@ -1,15 +1,15 @@
 
-fixerio.dashboard_rates:
-  path: '/admin/config/fixerio/rates'
+fixerio.rates:
+  path: '/admin/config/services/fixerio'
   defaults:
     _controller: '\Drupal\fixerio\Controller\DashboardController::rates'
-    _title: 'Fixer.io rates'
+    _title: 'Fixer.io'
   requirements:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
-fixerio.settings_form:
-  path: '/admin/config/fixerio/settings'
+fixerio.settings:
+  path: '/admin/config/services/fixerio/settings'
   defaults:
     _form: '\Drupal\fixerio\Form\SettingsForm'
     _title: 'Fixer.io settings'

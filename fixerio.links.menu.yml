@@ -1,12 +1,12 @@
-fixerio.settings_form:
-  title: 'Fixer.io settings'
-  route_name: fixerio.settings_form
-  description: 'A description for the menu entry'
-  parent: system.admin_config_system
-  weight: 99
 fixerio.rates:
   title: 'Rates'
-  route_name: fixerio.dashboard_rates
+  route_name: fixerio.rates
   description: 'Fixer.io rates list'
-  parent: system.admin_config_system
+  parent: system.admin_config_services
+  weight: 99
+fixerio.settings_form:
+  title: 'Fixer.io settings'
+  route_name: fixerio.settings
+  description: 'A description for the menu entry'
+  parent: fixerio.rates
   weight: 99

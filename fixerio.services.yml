@@ -1,7 +1,4 @@
 services:
-  plugin.manager.currencies_plugin:
-    class: Drupal\fixerio\CurrenciesPluginManager
-    arguments: ['@module_handler', '@cache.discovery']
   logger.channel.fixerio:
     parent: logger.channel_base
     arguments: ['fixerio']
@@ -10,4 +7,7 @@ services:
     arguments: ['@http_client', '@logger.channel.fixerio', '@serializer', '@config.factory']
   fixerio.exchange:
     class: Drupal\fixerio\Exchange
-    arguments: ['@fixerio.api', '@logger.channel.fixerio', '@cache.default', '@config.factory']
+    arguments: ['@fixerio.api', '@logger.channel.fixerio', '@cache.default', '@config.factory', '@fixerio.storage']
+  fixerio.storage:
+      class: Drupal\fixerio\Storage
+      arguments: ['@database', '@logger.channel.fixerio']

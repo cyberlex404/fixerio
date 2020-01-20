@@ -1,7 +1,8 @@
-name: 'fixerio'
+name: 'Fixer.io'
 type: module
-description: 'Fixer.io exchange rates and corrency conversion JSON API'
+description: 'Fixer.io exchange rates and currency conversion service.'
 core: 8.x
 package: 'Custom'
+configure: fixerio.settings
 dependencies:
-  - views
+  - drupal:views
