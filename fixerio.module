@@ -17,6 +17,9 @@ function fixerio_help($route_name, RouteMatchInterface $route_match) {
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('Fixer.io exchange rates and corrency conversion JSON API') . '</p>';
+      $output .= '<p>' . t('Usage example: %example', [
+        '%example' => '\Drupal::service("fixerio.exchange")->convert(2.90, "USD", "EUR");'
+        ]) . '</p>';
       return $output;
 
     default:
@@ -25,6 +28,7 @@ function fixerio_help($route_name, RouteMatchInterface $route_match) {
 
 /**
  * Implements hook_theme().
+ * @todo remove if not used.
  */
 function fixerio_theme() {
   return [

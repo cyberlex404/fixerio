@@ -147,6 +147,8 @@ class Exchange implements ExchangeInterface {
 
   /**
    * Helper function.
+   *
+   * @todo back to check by config.
    */
   private function getAvailableCurrencies() {
     if (empty($this->available_currencies)) {

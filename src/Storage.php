@@ -86,10 +86,8 @@ class Storage {
    * @see \Drupal\Core\Database\Connection::select()
    */
   public function load(array $entry = []) {
-    // Read all the fields from the dbtng_example table.
     $select = $this->connection
       ->select(self::TABLE_NAME, 'r', ['fetch' => Rate::class])
-      // Add all the fields into our select query.
       ->fields('r', ['base', 'code', 'rate', 'created']);
 
     foreach ($entry as $field => $value) {
@@ -99,7 +97,10 @@ class Storage {
   }
 
   /**
+   * Update rates records.
+   *
    * @param array $entry
+   *   Rate data.
    *
    * @return \Drupal\Core\Database\StatementInterface|int|null
    *   Record id
