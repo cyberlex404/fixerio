@@ -1,0 +1,24 @@
+{
+  "name": "drupal/fixerio",
+  "type": "drupal-module",
+  "description": "The module provides a service for currency conversion",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/fixerio",
+  "authors": [
+    {
+      "name": "Lex Musiuro",
+      "homepage": "https://www.drupal.org/u/cyberlex404",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Contributors",
+      "homepage": "https://www.drupal.org/node/NID/committers",
+      "role": "Contributors"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/fixerio",
+    "source": "http://cgit.drupalcode.org/fixerio"
+  }
+}

@@ -46,31 +46,6 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['#attached']['library'][] = 'fixerio/form';
-    /** @var \Drupal\fixerio\ExchangeInterface $exchange */
-    $exchange = \Drupal::service('fixerio.exchange');
-
-    // @todo Remove dev tests
-    try {
-      $value = $exchange->convert(10, 'RON', 'EUR');
-      \Drupal::messenger()->addStatus('10 RON to EUR:' . $value);
-    }
-    catch (UnavailableCurrency $e) {
-      \Drupal::messenger()->addError($e->getMessage());
-    }
-    try {
-      $value = $exchange->convert(10, 'EUR', 'BYN');
-      \Drupal::messenger()->addStatus('10 EUR to BYN:' . $value);
-    }
-    catch (UnavailableCurrency $e) {
-      \Drupal::messenger()->addError($e->getMessage());
-    }
-    try {
-      $value = $exchange->convert(200.4557, 'BYN', 'RUB');
-      \Drupal::messenger()->addStatus('200.4557 BYN to RUB:' . $value);
-    }
-    catch (UnavailableCurrency $e) {
-      \Drupal::messenger()->addError($e->getMessage());
-    }
 
     $config = $this->config('fixerio.settings');
     $cron = \Drupal::state()

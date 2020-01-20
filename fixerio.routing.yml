@@ -2,7 +2,8 @@
 fixerio.rates:
   path: '/admin/config/services/fixerio'
   defaults:
-    _controller: '\Drupal\fixerio\Controller\DashboardController::rates'
+    _controller: '\Drupal\system\Controller\SystemController::overview'
+    link_id: 'fixerio.rates'
     _title: 'Fixer.io'
   requirements:
     _permission: 'access administration pages'
