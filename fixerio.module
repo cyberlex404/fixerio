@@ -56,3 +56,86 @@ function fixerio_cron() {
       ->set('fixerio.rates_check', $time + $interval);
   }
 }
+
+/**
+ * Implements hook_views_data().
+ */
+function fixerio_views_data() {
+  $data = [];
+
+  $data['fixerio_exchange'] = [];
+  $data['fixerio_exchange']['table'] = [];
+  $data['fixerio_exchange']['table']['group'] = t('Fixer.io');
+  $data['fixerio_exchange']['table']['provider'] = 'fixerio';
+  $data['fixerio_exchange']['table']['base'] = [
+    'field' => 'id',
+    'title' => t('Fixer.io rates'),
+    'help' => t('List of exchange rates fixer.io.'),
+    'weight' => -10,
+  ];
+
+  $data['fixerio_exchange']['base'] = [
+    'title' => t('Base currency'),
+    'help' => t('Base currency code'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+    'argument' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['fixerio_exchange']['code'] = [
+    'title' => t('Currency'),
+    'help' => t('Currency code'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+    'argument' => [
+      'id' => 'string',
+    ],
+  ];
+  $data['fixerio_exchange']['rate'] = [
+    'title' => t('Rate value'),
+    'help' => t('Rate value (float).'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'numeric',
+    ],
+    'argument' => [
+      'id' => 'numeric',
+    ],
+  ];
+
+  $data['fixerio_exchange']['created'] = [
+    'title' => t('Created timestamp'),
+    'help' => t('Created timestamp'),
+    'field' => [
+      'id' => 'date',
+    ],
+    'sort' => [
+      'id' => 'date',
+    ],
+    'filter' => [
+      'id' => 'date',
+    ],
+  ];
+  return $data;
+}
