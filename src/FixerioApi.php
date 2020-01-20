@@ -178,15 +178,10 @@ class FixerioApi implements FixerioApiInterface {
       $dbStorage->merge($entry);
     }
 
-    $ratesStorage = $this->configFactory->getEditable('fixerio.rates.' . $base);
-
-    $ratesStorage->set('base', $base)
-      ->set('date', $response_data['date'])
-      ->set('last_update', $response_data['timestamp'])
-      ->set('rates', $rates)->save();
 
     \Drupal::service('cache_tags.invalidator')
       ->invalidateTags(['fixerio_rates']);
+
     $this->logger->notice(t('Update latest rates for @base', [
       '@base' => $response_data['base'],
     ]));

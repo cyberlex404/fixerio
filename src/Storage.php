@@ -8,6 +8,8 @@ use Drupal\Core\Logger\LoggerChannelInterface;
 /**
  * Class Storage.
  *
+ * @todo Add new loadByCodes() method.
+ *
  * @package Drupal\fixerio
  */
 class Storage {
@@ -106,7 +108,6 @@ class Storage {
    *   Record id
    */
   public function merge(array $entry) {
-
     $base = $entry['base'];
     $code = $entry['code'];
     try {
@@ -120,6 +121,7 @@ class Storage {
         ])
         ->updateFields([
           'rate' => $entry['rate'],
+          'created' => $entry['created'],
         ])
         ->execute();
     }

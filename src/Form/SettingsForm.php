@@ -13,13 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SettingsForm extends ConfigFormBase {
 
   /**
-   * Drupal\fixerio\CurrenciesPluginManagerInterface definition.
-   *
-   * @var \Drupal\fixerio\CurrenciesPluginManagerInterface
-   */
-  protected $pluginManagerCurrenciesPlugin;
-
-  /**
    * @var \Drupal\fixerio\FixerioApi
    */
   protected $api;
@@ -28,7 +21,6 @@ class SettingsForm extends ConfigFormBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = parent::create($container);
-    $instance->pluginManagerCurrenciesPlugin = $container->get('plugin.manager.currencies_plugin');
     $instance->api = $container->get('fixerio.api');
     return $instance;
   }
@@ -57,6 +49,7 @@ class SettingsForm extends ConfigFormBase {
     /** @var \Drupal\fixerio\ExchangeInterface $exchange */
     $exchange = \Drupal::service('fixerio.exchange');
 
+    // @todo Remove dev tests
     try {
       $value = $exchange->convert(10, 'RON', 'EUR');
       \Drupal::messenger()->addStatus('10 RON to EUR:' . $value);
@@ -89,7 +82,7 @@ class SettingsForm extends ConfigFormBase {
       '@next' => $formatter->format($cron),
     ]);
     \Drupal::messenger()->addStatus($message);
-    $this->pluginManagerCurrenciesPlugin->currenciesOptionsList();
+
     $form['plan'] = [
       '#type' => 'select',
       '#title' => $this->t('Plan'),
@@ -134,7 +127,6 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'select',
       '#title' => $this->t('Base currency'),
       '#description' => $this->t('Available for base plan and above.'),
-      // '#options' => $this->pluginManagerCurrenciesPlugin->currenciesOptionsList(),
       '#options' => $this->currenciesList(),
       '#size' => 1,
       '#default_value' => $config->get('base') ?? 'eur',
@@ -150,7 +142,6 @@ class SettingsForm extends ConfigFormBase {
     $form['available_currencies'] = [
       '#type' => 'checkboxes',
       '#title' => $this->t('Available currencies'),
-      // '#options' => $this->pluginManagerCurrenciesPlugin->currenciesOptionsList(),
       '#options' => $this->currenciesList(),
       '#default_value' => $config->get('available_currencies'),
       '#attributes' => [

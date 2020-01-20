@@ -20,32 +20,3 @@ fixerio.settings:
       sequence:
         type: string
         label: 'Currency'
-fixerio_rate:
-  type: mapping
-  mapping:
-    code:
-      type: string
-      label: Code
-    rate:
-      type: float
-      label: Rate
-
-fixerio.rates.*:
-  type: config_object
-  label: 'Fixer.io rates'
-  mapping:
-    base:
-      type: string
-      label: Base
-    last_update:
-      type: integer
-      label: Timestamp
-    date:
-      type: string
-      label: Date
-    rates:
-      type: sequence
-      label: 'Rates'
-      sequence:
-        type: fixerio_rate
-        label: 'Rate'
